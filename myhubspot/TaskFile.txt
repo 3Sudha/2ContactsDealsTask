@@ -1,0 +1,2 @@
+Create a HubSpot app that lists all the deals with their associated contacts. 
+If the contact has a phone number, show it too.

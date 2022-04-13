@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Details of Deals </title>
+  <style>
+    body
+    {
+      padding:0;
+      margin: 0;
+      display: grid;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: white;
+    }
+        
+    #show th, #show td
+    {
+      padding: 13px;
+      background-color: #c7c2b5;
+    }
+        
+    a:link, a:visited 
+    {
+      background-color:#555555;
+      color: white;
+      padding: 14px 25px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    a:hover, a:active 
+    {
+      background-color: #555555;
+    }
+  </style>
+</head>
+
+<body>
+  <table border="6" id="show">
+  <thead>
+  <tr>
+  <td colspan="8"> <center> <font size=8> <b>Deatils of Deals </b> </font> </center> </td>
+  </tr>
+  <tr>
+    <th>Deal Name</th>
+    <th>Deal Amount</th>
+    <th>Associated Contacts</th>
+    <th>Phone number</th>
+  </tr>
+
+  <%  deals.forEach(function(item){ %>
+  <tr>
+    <th><%=item.dealname%></th>
+    <th><%=item.amount%></th>
+    <th><%=item.firstname%> <%=item.lastname%></th>     
+    <th><%=item.phone%></th>     
+  </tr>
+  <%  }) %>
+  </thead>
+  </table>
+        
+</body>
+</html>
