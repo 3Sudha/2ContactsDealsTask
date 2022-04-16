@@ -5,7 +5,7 @@ const getDeals= async(accessToken)=>{
     const hubspotClient = new hubspot.Client({"accessToken":accessToken});
     
     
-    const limit = 10;
+    const limit = 25;
     const after = undefined;
     const properties = undefined;
     const propertiesWithHistory = undefined;
@@ -31,19 +31,7 @@ const getDeals= async(accessToken)=>{
     }
     
     }
-// const AssociatedDeals= (deals) =>{
-// const selected= deals.filter((deal)=>{                                                                                                                                                                                            
-//           if (deal.associations=== undefined || null)
-//           {
-//             return false;
-//           }
-//           else{
-//             return true;
-//           }
-//           //const Contdeal= deal.associations.contacts.results[0];
-//         })
-//         return selected;
-//       }  
+ 
     
 module.exports={
     getDeals:getDeals

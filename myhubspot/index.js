@@ -205,6 +205,13 @@ app.get('/', async (req, res) => {
   res.end();
 });
 
+//Destroy SessionId
+app.get("/logout", function(req, res) {
+  req.session.destroy(() => {
+  res.redirect("/"); 
+ });
+})
+
 app.get('/error', (req, res) => {
     res.setHeader('Content-Type', 'text/html');
     res.write(`<h4>Error: ${req.query.msg}</h4>`);
