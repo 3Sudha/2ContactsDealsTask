@@ -206,7 +206,7 @@ app.get('/', async (req, res) => {
 });
 
 //Destroy SessionId
-app.get("/logout", function(req, res) {
+app.get("/sudha", function(req, res) {
   req.session.destroy(() => {
   res.redirect("/"); 
  });
