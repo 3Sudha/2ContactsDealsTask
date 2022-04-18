@@ -173,7 +173,10 @@ app.get("/deals",async(req,res)=>{
       DealsParameter.push(
         {
           dealname: deal.properties.dealname, 
-          amount:deal.properties.amount
+          amount:deal.properties.amount,
+          firstname:"null",
+          phone:"null"
+
         });
        
      }
@@ -206,9 +209,9 @@ app.get('/', async (req, res) => {
 });
 
 //Destroy SessionId
-app.get("/sudha", function(req, res) {
+app.get("/logout", function(req, res) {
   req.session.destroy(() => {
-  res.redirect("/"); 
+  res.redirect("/sudha"); 
  });
 })
 
