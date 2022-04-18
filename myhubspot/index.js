@@ -210,9 +210,10 @@ app.get('/', async (req, res) => {
 
 //Destroy SessionId
 app.get("/logout", function(req, res) {
+  res.render("logout");
   req.session.destroy(() => {
-  res.redirect(`/sudha`); 
- });
+    accessTokenCache.flushAll();
+  });
 })
 
 app.get('/error', (req, res) => {
