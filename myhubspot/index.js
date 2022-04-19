@@ -10,12 +10,15 @@ const app = express();
 const Conts= require('./routes/contacts');
 const MyDeals=require('./routes/deals');
 const MyAssociatedDeals = require('./routes/deals');
+const axios = require('axios');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
 const PORT = 3001;
+const nextCache = new NodeCache({ deleteOnExpire: true });
+const userCache = new NodeCache({ deleteOnExpire: true });
 
 const refreshTokenStore = {};
 const accessTokenCache = new NodeCache({ deleteOnExpire: true });
@@ -150,8 +153,18 @@ app.get("/deals",async(req,res)=>{
   if (isAuthorized(req.sessionID)) 
   {
     const accessToken = await getAccessToken(req.sessionID);
-    const deals=await MyDeals.getDeals(accessToken);
+    //const deals=await MyDeals.getDeals(accessToken);
     //const selectedDeals= MyAssociatedDeals.AssociatedDeals(deals);
+    var direction="Next";
+    
+    if (!nextCache.get(req.sessionID)) {
+      var deals=await MyDeals.getDeals(accessToken,undefined);
+    }
+
+    else{
+      var deals=await MyDeals.getDeals(accessToken,nextCache.get(req.sessionID));
+    }
+
     var DealsParameter= [];
     var deal;
     for (deal of deals)
@@ -182,7 +195,7 @@ app.get("/deals",async(req,res)=>{
      }
     }
     console.log(DealsParameter) 
-    res.render("deals", {deals:DealsParameter });
+    res.render("deals", {deals:DealsParameter,direction : direction,userdata:userCache.get(req.sessionID)});
   }
   else {
     res.write(`<a href="/sudha/install"><h3>Install the app</h3></a>`);
@@ -197,8 +210,14 @@ app.get('/', async (req, res) => {
   // res.write(`<h2>My App</h2>`);
   if (isAuthorized(req.sessionID)) {
   const accessToken = await getAccessToken(req.sessionID);
-  //res.write(`<h4>Access token: ${accessToken}</h4>`);
-  res.render("home");
+  const details = await axios.get(`https://api.hubapi.com/oauth/v1/access-tokens/${accessToken}`)
+      const user_id = details.data.user
+      const portal_id = details.data.hub_id
+
+      const userdata = {user_id :user_id, portal_id: portal_id};
+      userCache.set(req.sessionID,userdata,1800)
+    
+    res.render("home",{userdata:userCache.get(req.sessionID)});
   
   } 
   else{
